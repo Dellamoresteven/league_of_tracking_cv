@@ -8,31 +8,25 @@
 using namespace std;
 using namespace cv;
 
-namespace global {
-    int W = 0;
-    int H = 0;
-    int start_W = 500;
-    int start_H = 500;
-    int max_W = 1500;
-    int start_frame = 110000;
-    int num_frames = 500;
-}
 
 int main(int argc, char ** argv) {
-    if(argc < 2) {
-        cout << "Usage: ./loft <path/to/mp4>" << endl;
-        return -1;
-    }
-    VideoCapture cap(argv[1]);
+    //if(argc < 2) {
+        //cout << "Usage: ./loft <path/to/mp4>" << endl;
+        //return -1;
+    //}
+    //VideoCapture cap(argv[1]);
+    VideoCapture cap("vod.mp4");
     {
         using namespace global;
         W = cap.get(CAP_PROP_FRAME_WIDTH);
         H = cap.get(CAP_PROP_FRAME_HEIGHT);
-        if(cap.get(CAP_PROP_FRAME_WIDTH) > max_W) {
-            float d = max_W / W;
+        if(W > max_W) {
+            float d = 1.0 * max_W / W;
             H = int(d * H);
             W = max_W;
         }
+        real_W = cap.get(CAP_PROP_FRAME_WIDTH);
+        real_H = cap.get(CAP_PROP_FRAME_HEIGHT);
     }
 
     cap.set(CAP_PROP_POS_FRAMES, global::start_frame);
@@ -45,12 +39,16 @@ int main(int argc, char ** argv) {
         cout << "** Processing frame " << i << " **" << endl;
         Frame f;
         cap >> f.img;
+        f.mask = f.img;
+        f.start();
         frames.push_back(f);
     }
 
     for(int i = 0; i < global::num_frames; i++){
         cout << "Showing frame: " << i << endl;
-        imshow("Frame", frames.at(i).img);
+        Mat resized;
+        resize(frames.at(i).mask, resized, Size(global::W, global::H));
+        imshow("Frame", resized);
         char c=(char)waitKey(0);
         if(c==27)
             break;
