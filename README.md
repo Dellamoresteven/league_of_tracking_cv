@@ -1,4 +1,4 @@
-
+# League minimap tracking
 
 # Usage:
 1. `make`
