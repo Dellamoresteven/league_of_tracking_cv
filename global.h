@@ -7,6 +7,6 @@ namespace global {
     int start_H         = 820; // The start height of the minimap   ***EDIT***
     int max_W           = 1536; // The max display allowed. Will scale down if we have too   ***EDIT***
     int start_frame     = 110000; // Frame to start on   ***EDIT***
-    int num_frames      = 30; // Number of frames to process and render   ***EDIT***
+    int num_frames      = 1000; // Number of frames to process and render   ***EDIT***
 }
 

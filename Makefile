@@ -10,5 +10,5 @@ all: msg main
 msg:
 	@echo '--- C++14 ---'
 
-main: loft.cpp frame.cpp global.h
+main: loft.cpp frame.cpp global.h helper.cpp
 	${CXX} ${CXXFLAGS} -O2 -I /usr/local/include/eigen3 -o $@ $< ${SDL2FLAGS} ${OPENCV2FLAGS}

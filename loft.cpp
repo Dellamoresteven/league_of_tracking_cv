@@ -4,6 +4,7 @@
 
 
 #include "frame.cpp"
+#include "helper.cpp"
 
 using namespace std;
 using namespace cv;
@@ -48,6 +49,14 @@ int main(int argc, char ** argv) {
         f.start(); // Starts extracting the kps and everything magical
         frames.push_back(f);
     }
+
+    for(size_t i = 1; i < frames.size(); i++) {
+        // matches is NOT a vector of points... It's a vetor where x = queryIdx and y = trainIdx. I use this type here because it is easy not because it is good.
+        vector<Point2f> matches = match_frames(frames.at(i-1), frames.at(i), i-1);
+        frames.at(i).draw_matches(matches);
+
+    }
+
 
     /*
      * Start rendering process.

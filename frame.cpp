@@ -12,6 +12,7 @@ class Frame {
         Mat miniMap; // only the minimap with no mask
         Mat miniMapMask; // only minimap with mask
         vector<KeyPoint> kps; // keypoints found in ONLY the minimap. (does not search whole image)
+        Mat des; // descriptor for our kps
         Rect miniMapRect; // Bounding rect of minimap
 
     Frame() {
@@ -29,8 +30,14 @@ class Frame {
         miniMapMask = miniMap; // copying the real minimap to my mask
 
         extrcat_kps(); // get the kps out of the minimap
-        draw_kps(); // Draw the kps on the minimap
+        //draw_kps(); // Draw the kps on the minimap
         draw_minimap(); // Only useful if you are drawing the entire img
+        extract_des();
+    }
+
+    void extract_des() {
+        auto orb = ORB::create();
+        orb->compute(miniMap, kps, des); // compute the des for each kp
     }
 
     void draw_minimap() {
@@ -45,6 +52,19 @@ class Frame {
             circle(
                 miniMapMask,
                 kp.pt,
+                2,
+                Scalar(0,255,0),
+                -1,
+                2,
+                0);
+        }
+    }
+
+    void draw_matches(vector<Point2f> matches) {
+        for(const auto m: matches) {
+            circle(
+                miniMapMask,
+                kps[m.x].pt,
                 2,
                 Scalar(0,255,0),
                 -1,
