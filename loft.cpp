@@ -28,8 +28,8 @@ int main(int argc, char ** argv) {
         H = cap.get(CAP_PROP_FRAME_HEIGHT);
         if(W > max_W) {
             float d = 1.0 * max_W / W;
-            H = int(d * H);
-            W = max_W;
+            H = int(d * H); // window height
+            W = max_W; // window width
         }
         real_W = cap.get(CAP_PROP_FRAME_WIDTH);
         real_H = cap.get(CAP_PROP_FRAME_HEIGHT);
